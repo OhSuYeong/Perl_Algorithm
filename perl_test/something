@@ -1,0 +1,66 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+my $a = 1;
+
+# 무한 루프 시작
+while ($a) {
+    # `top` 명령어로 시스템 상태를 얻고, 1초 간격으로 출력
+    my $cpu_mem_info = `top -bn1 | grep "Cpu(s)"`;
+    my $mem_info = `free -h | grep Mem`;
+
+    print "CPU state: $cpu_mem_info";
+    print "Memory state: $mem_info\n";
+
+    # 1초 기다리기
+    sleep(0.5);
+
+    # `df` 명령어로 디스크 공간 상태 확인
+    my $disk_info = `df -h | grep -E '^/dev'`;
+
+    # `ifconfig` 명령어로 네트워크 인터페이스 상태 확인
+    my $network_info = `ifconfig | grep inet`;
+
+    print "Disk usage: $disk_info\n";
+    print "Network state: $network_info\n";
+
+    # 1초 기다리기
+    sleep(0.5);
+
+    # `lscpu` 명령어로 CPU 정보 확인
+    my $cpu_info = `lscpu`;
+
+    # `lsblk` 명령어로 블록 장치 정보 확인
+    my $block_devices = `lsblk -o NAME,SIZE,TYPE,MOUNTPOINT`;
+
+    print "CPU info: $cpu_info\n";
+    print "Block device info: $block_devices\n";
+
+    # 1초 기다리기
+    sleep(0.5);
+
+    # 시스템 정보 출력
+    my $uptime = `uptime`;
+    my $load_avg = `cat /proc/loadavg`;
+    my $cpu_usage = `top -bn1 | grep "Cpu(s)"`;
+
+    print "System state:\n";
+    print "uptime: $uptime\n";
+    print "system load(Load Average): $load_avg\n";
+    print "CPU usage: $cpu_usage\n";
+
+    # 1초 기다리기
+    sleep(0.5);
+
+    $a += 1;
+
+    print "Count : $a\n";
+    sleep(1.5);
+
+    # print "INPUT : ";
+    # $a = <STDIN>;
+    # chomp($a);
+}
+
